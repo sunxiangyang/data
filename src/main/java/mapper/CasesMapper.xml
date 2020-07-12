@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.CasesMapper">
+  <resultMap id="BaseResultMap" type="bean.Cases">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="case_num" jdbcType="VARCHAR" property="caseNum" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="duty_id" jdbcType="INTEGER" property="dutyId" />
+    <result column="letter_time" jdbcType="TIMESTAMP" property="letterTime" />
+    <result column="country_id" jdbcType="INTEGER" property="countryId" />
+    <result column="department_id" jdbcType="INTEGER" property="departmentId" />
+    <result column="turn_department_id" jdbcType="INTEGER" property="turnDepartmentId" />
+    <result column="accessory" jdbcType="VARCHAR" property="accessory" />
+    <result column="case_status" jdbcType="TINYINT" property="caseStatus" />
+    <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
+    <result column="creator_name" jdbcType="VARCHAR" property="creatorName" />
+    <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
+    <result column="updater_name" jdbcType="VARCHAR" property="updaterName" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="deleted_at" jdbcType="TIMESTAMP" property="deletedAt" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="bean.CasesWithBLOBs">
+    <result column="matter" jdbcType="LONGVARCHAR" property="matter" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="remark" jdbcType="LONGVARCHAR" property="remark" />
+    <result column="opinion" jdbcType="LONGVARCHAR" property="opinion" />
+    <result column="progress" jdbcType="LONGVARCHAR" property="progress" />
+    <result column="comment" jdbcType="LONGVARCHAR" property="comment" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, case_num, name, type_id, duty_id, letter_time, country_id, department_id, turn_department_id, 
+    accessory, case_status, creator_id, creator_name, updater_id, updater_name, created_at, 
+    updated_at, deleted_at
+  </sql>
+  <sql id="Blob_Column_List">
+    matter, content, remark, opinion, progress, comment
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="bean.CasesExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cases
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="bean.CasesExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cases
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cases
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cases
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="bean.CasesExample">
+    delete from cases
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="bean.CasesWithBLOBs">
+    insert into cases (id, case_num, name, 
+      type_id, duty_id, letter_time, 
+      country_id, department_id, turn_department_id, 
+      accessory, case_status, creator_id, 
+      creator_name, updater_id, updater_name, 
+      created_at, updated_at, deleted_at, 
+      matter, content, remark, 
+      opinion, progress, comment
+      )
+    values (#{id,jdbcType=INTEGER}, #{caseNum,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{typeId,jdbcType=INTEGER}, #{dutyId,jdbcType=INTEGER}, #{letterTime,jdbcType=TIMESTAMP}, 
+      #{countryId,jdbcType=INTEGER}, #{departmentId,jdbcType=INTEGER}, #{turnDepartmentId,jdbcType=INTEGER}, 
+      #{accessory,jdbcType=VARCHAR}, #{caseStatus,jdbcType=TINYINT}, #{creatorId,jdbcType=INTEGER}, 
+      #{creatorName,jdbcType=VARCHAR}, #{updaterId,jdbcType=INTEGER}, #{updaterName,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{deletedAt,jdbcType=TIMESTAMP}, 
+      #{matter,jdbcType=LONGVARCHAR}, #{content,jdbcType=LONGVARCHAR}, #{remark,jdbcType=LONGVARCHAR}, 
+      #{opinion,jdbcType=LONGVARCHAR}, #{progress,jdbcType=LONGVARCHAR}, #{comment,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="bean.CasesWithBLOBs">
+    insert into cases
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="caseNum != null">
+        case_num,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="typeId != null">
+        type_id,
+      </if>
+      <if test="dutyId != null">
+        duty_id,
+      </if>
+      <if test="letterTime != null">
+        letter_time,
+      </if>
+      <if test="countryId != null">
+        country_id,
+      </if>
+      <if test="departmentId != null">
+        department_id,
+      </if>
+      <if test="turnDepartmentId != null">
+        turn_department_id,
+      </if>
+      <if test="accessory != null">
+        accessory,
+      </if>
+      <if test="caseStatus != null">
+        case_status,
+      </if>
+      <if test="creatorId != null">
+        creator_id,
+      </if>
+      <if test="creatorName != null">
+        creator_name,
+      </if>
+      <if test="updaterId != null">
+        updater_id,
+      </if>
+      <if test="updaterName != null">
+        updater_name,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+      <if test="deletedAt != null">
+        deleted_at,
+      </if>
+      <if test="matter != null">
+        matter,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="opinion != null">
+        opinion,
+      </if>
+      <if test="progress != null">
+        progress,
+      </if>
+      <if test="comment != null">
+        comment,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="caseNum != null">
+        #{caseNum,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="dutyId != null">
+        #{dutyId,jdbcType=INTEGER},
+      </if>
+      <if test="letterTime != null">
+        #{letterTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="countryId != null">
+        #{countryId,jdbcType=INTEGER},
+      </if>
+      <if test="departmentId != null">
+        #{departmentId,jdbcType=INTEGER},
+      </if>
+      <if test="turnDepartmentId != null">
+        #{turnDepartmentId,jdbcType=INTEGER},
+      </if>
+      <if test="accessory != null">
+        #{accessory,jdbcType=VARCHAR},
+      </if>
+      <if test="caseStatus != null">
+        #{caseStatus,jdbcType=TINYINT},
+      </if>
+      <if test="creatorId != null">
+        #{creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="creatorName != null">
+        #{creatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="updaterId != null">
+        #{updaterId,jdbcType=INTEGER},
+      </if>
+      <if test="updaterName != null">
+        #{updaterName,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletedAt != null">
+        #{deletedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="matter != null">
+        #{matter,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="opinion != null">
+        #{opinion,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="progress != null">
+        #{progress,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="comment != null">
+        #{comment,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="bean.CasesExample" resultType="java.lang.Integer">
+    select count(*) from cases
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cases
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.caseNum != null">
+        case_num = #{record.caseNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeId != null">
+        type_id = #{record.typeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.dutyId != null">
+        duty_id = #{record.dutyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.letterTime != null">
+        letter_time = #{record.letterTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.countryId != null">
+        country_id = #{record.countryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.departmentId != null">
+        department_id = #{record.departmentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.turnDepartmentId != null">
+        turn_department_id = #{record.turnDepartmentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.accessory != null">
+        accessory = #{record.accessory,jdbcType=VARCHAR},
+      </if>
+      <if test="record.caseStatus != null">
+        case_status = #{record.caseStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.creatorId != null">
+        creator_id = #{record.creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="record.creatorName != null">
+        creator_name = #{record.creatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updaterId != null">
+        updater_id = #{record.updaterId,jdbcType=INTEGER},
+      </if>
+      <if test="record.updaterName != null">
+        updater_name = #{record.updaterName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdAt != null">
+        created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatedAt != null">
+        updated_at = #{record.updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deletedAt != null">
+        deleted_at = #{record.deletedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.matter != null">
+        matter = #{record.matter,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.opinion != null">
+        opinion = #{record.opinion,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.progress != null">
+        progress = #{record.progress,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.comment != null">
+        comment = #{record.comment,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update cases
+    set id = #{record.id,jdbcType=INTEGER},
+      case_num = #{record.caseNum,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      type_id = #{record.typeId,jdbcType=INTEGER},
+      duty_id = #{record.dutyId,jdbcType=INTEGER},
+      letter_time = #{record.letterTime,jdbcType=TIMESTAMP},
+      country_id = #{record.countryId,jdbcType=INTEGER},
+      department_id = #{record.departmentId,jdbcType=INTEGER},
+      turn_department_id = #{record.turnDepartmentId,jdbcType=INTEGER},
+      accessory = #{record.accessory,jdbcType=VARCHAR},
+      case_status = #{record.caseStatus,jdbcType=TINYINT},
+      creator_id = #{record.creatorId,jdbcType=INTEGER},
+      creator_name = #{record.creatorName,jdbcType=VARCHAR},
+      updater_id = #{record.updaterId,jdbcType=INTEGER},
+      updater_name = #{record.updaterName,jdbcType=VARCHAR},
+      created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{record.updatedAt,jdbcType=TIMESTAMP},
+      deleted_at = #{record.deletedAt,jdbcType=TIMESTAMP},
+      matter = #{record.matter,jdbcType=LONGVARCHAR},
+      content = #{record.content,jdbcType=LONGVARCHAR},
+      remark = #{record.remark,jdbcType=LONGVARCHAR},
+      opinion = #{record.opinion,jdbcType=LONGVARCHAR},
+      progress = #{record.progress,jdbcType=LONGVARCHAR},
+      comment = #{record.comment,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cases
+    set id = #{record.id,jdbcType=INTEGER},
+      case_num = #{record.caseNum,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      type_id = #{record.typeId,jdbcType=INTEGER},
+      duty_id = #{record.dutyId,jdbcType=INTEGER},
+      letter_time = #{record.letterTime,jdbcType=TIMESTAMP},
+      country_id = #{record.countryId,jdbcType=INTEGER},
+      department_id = #{record.departmentId,jdbcType=INTEGER},
+      turn_department_id = #{record.turnDepartmentId,jdbcType=INTEGER},
+      accessory = #{record.accessory,jdbcType=VARCHAR},
+      case_status = #{record.caseStatus,jdbcType=TINYINT},
+      creator_id = #{record.creatorId,jdbcType=INTEGER},
+      creator_name = #{record.creatorName,jdbcType=VARCHAR},
+      updater_id = #{record.updaterId,jdbcType=INTEGER},
+      updater_name = #{record.updaterName,jdbcType=VARCHAR},
+      created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{record.updatedAt,jdbcType=TIMESTAMP},
+      deleted_at = #{record.deletedAt,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="bean.CasesWithBLOBs">
+    update cases
+    <set>
+      <if test="caseNum != null">
+        case_num = #{caseNum,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null">
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="dutyId != null">
+        duty_id = #{dutyId,jdbcType=INTEGER},
+      </if>
+      <if test="letterTime != null">
+        letter_time = #{letterTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="countryId != null">
+        country_id = #{countryId,jdbcType=INTEGER},
+      </if>
+      <if test="departmentId != null">
+        department_id = #{departmentId,jdbcType=INTEGER},
+      </if>
+      <if test="turnDepartmentId != null">
+        turn_department_id = #{turnDepartmentId,jdbcType=INTEGER},
+      </if>
+      <if test="accessory != null">
+        accessory = #{accessory,jdbcType=VARCHAR},
+      </if>
+      <if test="caseStatus != null">
+        case_status = #{caseStatus,jdbcType=TINYINT},
+      </if>
+      <if test="creatorId != null">
+        creator_id = #{creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="creatorName != null">
+        creator_name = #{creatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="updaterId != null">
+        updater_id = #{updaterId,jdbcType=INTEGER},
+      </if>
+      <if test="updaterName != null">
+        updater_name = #{updaterName,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletedAt != null">
+        deleted_at = #{deletedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="matter != null">
+        matter = #{matter,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="opinion != null">
+        opinion = #{opinion,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="progress != null">
+        progress = #{progress,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="comment != null">
+        comment = #{comment,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="bean.CasesWithBLOBs">
+    update cases
+    set case_num = #{caseNum,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      type_id = #{typeId,jdbcType=INTEGER},
+      duty_id = #{dutyId,jdbcType=INTEGER},
+      letter_time = #{letterTime,jdbcType=TIMESTAMP},
+      country_id = #{countryId,jdbcType=INTEGER},
+      department_id = #{departmentId,jdbcType=INTEGER},
+      turn_department_id = #{turnDepartmentId,jdbcType=INTEGER},
+      accessory = #{accessory,jdbcType=VARCHAR},
+      case_status = #{caseStatus,jdbcType=TINYINT},
+      creator_id = #{creatorId,jdbcType=INTEGER},
+      creator_name = #{creatorName,jdbcType=VARCHAR},
+      updater_id = #{updaterId,jdbcType=INTEGER},
+      updater_name = #{updaterName,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      deleted_at = #{deletedAt,jdbcType=TIMESTAMP},
+      matter = #{matter,jdbcType=LONGVARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR},
+      remark = #{remark,jdbcType=LONGVARCHAR},
+      opinion = #{opinion,jdbcType=LONGVARCHAR},
+      progress = #{progress,jdbcType=LONGVARCHAR},
+      comment = #{comment,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bean.Cases">
+    update cases
+    set case_num = #{caseNum,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      type_id = #{typeId,jdbcType=INTEGER},
+      duty_id = #{dutyId,jdbcType=INTEGER},
+      letter_time = #{letterTime,jdbcType=TIMESTAMP},
+      country_id = #{countryId,jdbcType=INTEGER},
+      department_id = #{departmentId,jdbcType=INTEGER},
+      turn_department_id = #{turnDepartmentId,jdbcType=INTEGER},
+      accessory = #{accessory,jdbcType=VARCHAR},
+      case_status = #{caseStatus,jdbcType=TINYINT},
+      creator_id = #{creatorId,jdbcType=INTEGER},
+      creator_name = #{creatorName,jdbcType=VARCHAR},
+      updater_id = #{updaterId,jdbcType=INTEGER},
+      updater_name = #{updaterName,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      deleted_at = #{deletedAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
