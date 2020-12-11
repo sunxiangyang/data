@@ -31,6 +31,7 @@ public class MyBatisGeneratorApp {
             generatorSqlmap.generator();
         } catch (Exception e) {
             e.printStackTrace();
+             e.printStackTrace();
         }
 
     }
