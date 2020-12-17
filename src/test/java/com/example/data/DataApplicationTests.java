@@ -8,6 +8,7 @@ class DataApplicationTests {
 
     @Test
     void contextLoads() {
+System.Out.println(11111)
     }
 
 }
